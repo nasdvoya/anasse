@@ -93,3 +93,16 @@ func DeletePartner(id int64) error {
 
 	return nil
 }
+
+func ReadPartnerList() []Partner {
+	rows, _ := DB.Query("SELECT Nome, Morada FROM partners")
+	defer rows.Close()
+
+	partners := make([]Partner, 0)
+	for rows.Next() {
+		var partner Partner
+		rows.Scan(&partner.Nome, &partner.Morada)
+		partners = append(partners, partner)
+	}
+	return partners
+}
